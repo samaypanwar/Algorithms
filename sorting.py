@@ -2,21 +2,13 @@ import random
 import numpy as np
 import time
 import functools
+from decorators import execution_time
 
 
 
 class Sort:
 
-    def _execution_time(function):
-        @functools.wraps(function)
-        def wrapper(*args, **kwargs):
-            startTime = time.perf_counter()
-            function(*args, **kwargs)
-            endTime = time.perf_counter()
-            print(f'Execution Time of {function.__name__} : {(endTime-startTime):.3f} seconds')
-        return wrapper
-    
-    @_execution_time
+    @execution_time
     def insertion_sort(self, array):
         """ The worst-case complexity of such an algorithm is O(n^2)"""
 
@@ -28,7 +20,7 @@ class Sort:
                     
         return array
 
-    @_execution_time
+    @execution_time
     def bubble_sort(self, array):
         """ The worst-case complexity of such an algorithm is O(n^2)"""
         
@@ -46,7 +38,7 @@ class Sort:
 
         return array
 
-    @_execution_time
+    @execution_time
     def selection_sort(self, array):
         """ The worst-case complexity of such an algorithm is O(n^2)"""
 
@@ -120,7 +112,7 @@ class Sort:
 
         return sortedArray
 
-    @_execution_time
+    @execution_time
     def heap_sort(self, array):
         
         def add_to_heap(heap, element):                     # First we create a min-heap from the array
