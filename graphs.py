@@ -8,17 +8,22 @@ class GraphAlgorithms:
         self.INFINITY = np.inf
 
     @execution_time
-    def DFS(self, graph, startNode, endNode = None, *args, **kwargs):
+    def DFS(self, graph, *args, **kwargs):
         """ Assumes that adjaceny list has weights but does not consdier
          them in computing the path
         """
+        startNode = 0                       # Default value for us to start our BFS
+    
+
 
         visitedAlready = {}                 # To keep track of the vertices we have already seen
         visitedAlready[startNode] = True    # Mark the startNode as already seen
         pathToNode = [startNode]            # Add the startNode to our callStack and path
         callStack = pathToNode.copy()
 
-        if endNode is not None:             # If we want to find the shortest path to a specific node
+        if 'endNode' in kwargs.keys():      # If the value for an endNode is provided then find the path
+            endNode = kwargs['endNode']
+
             while pathToNode:               # While the call stack is not empty
 
                 node = pathToNode[-1]       # Take the last element of our call stack
@@ -56,13 +61,50 @@ class GraphAlgorithms:
                 return pathToNode           # Return all the nodes
     
     @execution_time
-    def BFS(self, graph, startNode, *args, **kwargs):
-        """ Performs BFS but cannot make maze for some reason """
+    def BFS(self, graph, *args, **kwargs):
+
+        startNode = 0                       # Default value for us to start our BFS
+    
+        if 'endNode' in kwargs.keys():      # If the value for an endNode is provided then find the shortest path
+            endNode = kwargs['endNode']
+
+            if startNode == endNode:        # Base case
+                return [startNode]
+
+            callQueue = deque([startNode])  # Make a queue for FIFO order as compared to stack for DFS
+            parentOfCurrentNode = {}        # We create a dictionary to keep track of the parent of each node
+            parentOfCurrentNode[startNode] = startNode
+
+            # Create a function to unravel the dictionary to get the shortest path
+            def get_previous_path(parentOfCurrentNode, endNode, startNode):
+                path = [endNode]
+                previousNode = endNode
+                
+                while previousNode != startNode:    # While the parent node is not the startNode
+                    previousNode = parentOfCurrentNode[previousNode]    # Find the parent of the currentNode
+                    path.insert(0, previousNode)                        # And insert the parent into the start of the path
+                return path # Return the shortest path
+
+            while callQueue:                # While the callQueue is not empty
+
+                currentNode = callQueue.popleft()       # Take the first node in the queue
+
+                for adjacentNode in graph[currentNode]: # For all the neighbouring nodes of the currentNode
+                    
+                    if adjacentNode not in parentOfCurrentNode: # If adjacentNode has not already been seen
+                        parentOfCurrentNode[adjacentNode] = currentNode # Note down the parent of the neighbour
+
+                        if adjacentNode == endNode:     # If the adjacentNode is equal to the endNode
+                            # We unravel the path to the startNode by iteratively finding the parents of each node in the path to the endNode
+                            return get_previous_path(parentOfCurrentNode, adjacentNode, startNode)
+
+                        else: callQueue.append(adjacentNode)    # Else we add the neighbouring node to our queue
+
         
         visitedAlready = {}                 # Keep track of all the nodes already seen
         visitedAlready[startNode] = True    # Mark the startNode as already seen
         callQueue = deque()                 # We use a queue for BFS as compared to a stack for DFS
-        callQueue.append(startNode)         # Add the startNode to our queue
+        callQueue.append([startNode])         # Add the startNode to our queue
         
         while callQueue:                    # While our queue is not empty
 
