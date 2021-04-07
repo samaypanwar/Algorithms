@@ -17,3 +17,9 @@ Graph Algorithms:
 Minimum Spanning Tree Algorithms:
 1. Prim-Jarnik Algorithm
 2. Kruskal's Algorithm
+
+Network-Flow Algorithms:
+1. Edmond-Karp Algorithm
+2. Ford-Fulkerson Algorithm 
+3. Bipartite Matching 
+4. Minimum-Cut Maximum Flow

@@ -1,6 +1,8 @@
 import numpy as np
 from collections import deque
-from decorator import execution_time
+import sys
+sys.path.append('../')
+from decorators import execution_time
 
 class GraphAlgorithms:
 
@@ -8,21 +10,19 @@ class GraphAlgorithms:
         self.INFINITY = np.inf
 
     @execution_time
-    def DFS(self, graph, *args, **kwargs):
+    def DFS(self, graph, startNode = 0, endNode = None, *args, **kwargs):
         """ Assumes that adjaceny list has weights but does not consdier
          them in computing the path
         """
         startNode = 0                       # Default value for us to start our BFS
     
 
-
         visitedAlready = {}                 # To keep track of the vertices we have already seen
         visitedAlready[startNode] = True    # Mark the startNode as already seen
         pathToNode = [startNode]            # Add the startNode to our callStack and path
         callStack = pathToNode.copy()
 
-        if 'endNode' in kwargs.keys():      # If the value for an endNode is provided then find the path
-            endNode = kwargs['endNode']
+        if endNode:      # If the value for an endNode is provided then find the path
 
             while pathToNode:               # While the call stack is not empty
 
@@ -32,7 +32,7 @@ class GraphAlgorithms:
                 
                 noFurtherNodes = True       # Assume that node does not have any further nodes
 
-                for adjacentVertice, weight in graph[node]:         # Check all the adjacent vertices of our node
+                for adjacentVertice in graph[node]:         # Check all the adjacent vertices of our node
                     if adjacentVertice not in visitedAlready:   # If any of them are not in our cloud
                         pathToNode.append(adjacentVertice)      # Append them to our path 
                         visitedAlready[adjacentVertice] = True  # And mark them as seen
@@ -46,7 +46,7 @@ class GraphAlgorithms:
                 node = callStack[-1]        # Take last element of call stack
                 noFurtherNodes = True       # Assume no further nodes
 
-                for adjacentVertice, weight in graph[node]:     # For all adjacent nodes of the current node
+                for adjacentVertice in graph[node]:     # For all adjacent nodes of the current node
                     if adjacentVertice not in visitedAlready:   # If any of them have not been seen already
                         callStack.append(adjacentVertice)       # Add them to call stack and our path
                         pathToNode.append(adjacentVertice)
@@ -61,12 +61,11 @@ class GraphAlgorithms:
                 return pathToNode           # Return all the nodes
     
     @execution_time
-    def BFS(self, graph, *args, **kwargs):
+    def BFS(self, graph, startNode = 0, endNode = None, *args, **kwargs):
 
         startNode = 0                       # Default value for us to start our BFS
     
-        if 'endNode' in kwargs.keys():      # If the value for an endNode is provided then find the shortest path
-            endNode = kwargs['endNode']
+        if endNode:      # If the value for an endNode is provided then find the shortest path
 
             if startNode == endNode:        # Base case
                 return [startNode]
@@ -117,8 +116,9 @@ class GraphAlgorithms:
                     visitedAlready[adjacentVertice] = True  # And mark it as already visited
 
     @execution_time
-    def dijkstra(self, graph, startNode, *args, **kwargs):
-               
+    def dijkstra(self, graph, *args, **kwargs):
+
+        startNode = 0    
         distanceToNodes = [self.INFINITY]*len(graph)    # Initally all nodes are at a distance infinity from the startNode
         distanceToNodes[startNode] = 0                  # Start Node is at a distance of 0 from itself
         visitedAlready = {}                     # Dictionary to keep track of the vertices in the cloud
@@ -149,10 +149,11 @@ class GraphAlgorithms:
         return distanceToNodes
 
     @execution_time
-    def floyd_warshall(self, graph, startNode, returnPath, *args, **kwargs):
+    def floyd_warshall(self, graph, returnPath=None, *args, **kwargs):
         """ O(n^3) algorithm, If user wants the shortest distance between two nodes, 
         they must supply the two nodes in returnPath as a tuple (initialNode, endNode)
         """
+        startNode = 0  
         distanceToNodes = np.full(shape=(len(graph), len(graph)), fill_value=self.INFINITY) # Mark the distance to all nodes as infinity
         shortestPath = np.full(shape=(len(graph), len(graph)), fill_value=None)             # To tkae note of the path to each node
         
@@ -193,8 +194,9 @@ class GraphAlgorithms:
         return distanceToNodes
     
     @execution_time
-    def bellman_ford(self, graph, startNode, *args, **kwargs):
-        
+    def bellman_ford(self, graph, *args, **kwargs):
+
+        startNode = 0  
         distanceToNode = [self.INFINITY] * len(graph)       # Mark the current distance to each node as infinity
         predecessor = [None] * len(graph)                   # To keep track of the path
         distanceToNode[startNode] = 0                       # Initial node is at a distance of zero from itself

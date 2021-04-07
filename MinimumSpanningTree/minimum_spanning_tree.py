@@ -1,6 +1,8 @@
 import numpy as np
 from collections import deque
-from decorator import execution_time
+import sys
+sys.path.append('../')
+from decorators import execution_time
 
 class MinimumSpanningTrees:
     

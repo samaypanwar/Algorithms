@@ -1,0 +1,7 @@
+
+MAX_LAYERS : 32  # defines max number of layers in the graph
+MAX_SIZE_LAYERS : 16  # defines max size for each layer in the graph
+MAX_CAPACITY : 64  # defines the max capacity of an edge
+EDGE_DENSITY_FORWARD : 0.5  # defines the forward edge density at each layer
+EDGE_DENSITY_BACKWARDS : 0.2  # defines the backwards edge density at each layer
+EDGE_DENSITY_SIDE : 0.2  # defines the side edge density at each layer

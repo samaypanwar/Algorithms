@@ -1,0 +1,9 @@
+SHORTEST_PATH : 
+
+  NODES : 512              # defines number of nodes in the graph
+  EDGES : 2048             # defines number of edges in the graph
+  DIRECTED : True         # defines if the graph is directed or undirected
+  NEGATIVE_WEIGHT : False # defines if the edges can have negative weight
+
+MAZE : 
+  MAZE_SIZE : 10

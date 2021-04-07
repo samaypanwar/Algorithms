@@ -2,12 +2,13 @@ import random
 import numpy as np
 import time
 import functools
+import sys
+sys.path.append('../')
 from decorators import execution_time
 
 
-
 class Sort:
-
+    
     @execution_time
     def insertion_sort(self, array):
         """ The worst-case complexity of such an algorithm is O(n^2)"""
