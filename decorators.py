@@ -1,4 +1,4 @@
-import time 
+import time
 import functools
 
 def execution_time(function):

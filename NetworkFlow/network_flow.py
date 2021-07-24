@@ -5,7 +5,7 @@ sys.path.append('../')
 from decorators import execution_time
 
 class NetworkFlow:
-    
+
     def BFS_search(self, graph, *args, **kwargs):
         """ Our BFS algorithm takes in an adjacency matrix and computes the shortest path from source to sink. """
 
@@ -47,7 +47,6 @@ class NetworkFlow:
                     else:
                         callQueue.append(adjacentNode)  # Else we add the neighbouring node to our queue
 
-
     # function that returns the residual graph from the input graph
     def build_residual_graph(self, graph, flow, *args, **kwargs):
 
@@ -61,7 +60,6 @@ class NetworkFlow:
         residualGraphAsAdjacencyMatrix = np.subtract(adjacencyMatrixForCapacities, flow)
 
         return residualGraphAsAdjacencyMatrix
-
 
     # function that implements the Edmonds Karp algorithm to find max-flow of a network graph
     @execution_time
